@@ -16,7 +16,9 @@
 							"script": {
 								"exec": [
 									"pm.environment.set(\"pet_id\", _.random(1, 1000));\r",
-									"pm.environment.set(\"pet_name\", 'a' +  _.random(1,500));"
+									"pm.environment.set(\"category_id\",_.random(1,500));\r",
+									"var name = pm.variables.replaceIn(\"{{$randomFirstName}}\"); \r",
+									"pm.environment.set(\"pet_name\",name);"
 								],
 								"type": "text/javascript"
 							}
@@ -34,11 +36,10 @@
 									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"pet_id\"));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Categoty name\", function () {\r",
-									"    pm.expect(jsonData.category.name).to.eql(pm.environment.get(\"pet_name\"));\r",
-									"});\r",
-									"\r",
-									""
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Category ID\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.eql(pm.environment.get(\"category_id\"));\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -49,7 +50,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": {{pet_id}},\r\n  \"category\": {\r\n    \"id\": 111,\r\n    \"name\": \"{{pet_name}}\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"cats-killer\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
+							"raw": "{\r\n  \"id\": {{pet_id}},\r\n  \"category\": {\r\n    \"id\": {{category_id}},\r\n    \"name\": \"{{pet_name}}\"\r\n  },\r\n  \"name\": \"doggie\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"cats-killer\"\r\n    }\r\n  ],\r\n  \"status\": \"available\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -82,9 +83,15 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
+									"\r",
 									"var jsonData = pm.response.json();\r",
 									"pm.test(\"Response ID the same as in environment\", function () {\r",
 									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"pet_id\"));\r",
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Category ID\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.eql(pm.environment.get(\"category_id\"));\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -122,14 +129,14 @@
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
 									"\r",
-									"\r",
 									"var jsonData = pm.response.json();\r",
 									"pm.test(\"Response ID the same as in environment\", function () {\r",
 									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"pet_id\"));\r",
 									"});\r",
 									"\r",
-									"pm.test(\"Categoty name\", function () {\r",
-									"    pm.expect(jsonData.category.name).to.eql(pm.environment.get(\"pet_name\"));\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Category ID\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.eql(pm.environment.get(\"category_id\"));\r",
 									"});"
 								],
 								"type": "text/javascript"
@@ -141,7 +148,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n  \"id\": {{pet_id}},\r\n  \"category\": {\r\n    \"id\": 222,\r\n    \"name\": \"{{pet_name}}\"\r\n  },\r\n  \"name\": \"cat\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"dog_killer\"\r\n    }\r\n  ],\r\n  \"status\": \"sold\"\r\n}",
+							"raw": "{\r\n  \"id\": {{pet_id}},\r\n  \"category\": {\r\n    \"id\": {{category_id}},\r\n    \"name\": \"{{pet_name}}\"\r\n  },\r\n  \"name\": \"cat\",\r\n  \"photoUrls\": [\r\n    \"string\"\r\n  ],\r\n  \"tags\": [\r\n    {\r\n      \"id\": 0,\r\n      \"name\": \"dog_killer\"\r\n    }\r\n  ],\r\n  \"status\": \"sold\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -175,10 +182,16 @@
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
 									"});\r",
+									"\r",
 									"var jsonData = pm.response.json();\r",
 									"pm.test(\"Response ID the same as in environment\", function () {\r",
 									"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"pet_id\"));\r",
-									"}); "
+									"});\r",
+									"\r",
+									"var jsonData = pm.response.json();\r",
+									"pm.test(\"Category ID\", function () {\r",
+									"    pm.expect(jsonData.category.id).to.eql(pm.environment.get(\"category_id\"));\r",
+									"});"
 								],
 								"type": "text/javascript"
 							}
@@ -213,9 +226,7 @@
 								"exec": [
 									"pm.test(\"Status code is 200\", function () {\r",
 									"    pm.response.to.have.status(200);\r",
-									"});\r",
-									"\r",
-									""
+									"});"
 								],
 								"type": "text/javascript"
 							}
